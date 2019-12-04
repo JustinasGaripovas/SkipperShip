@@ -9,6 +9,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### General conduct
 
 * No commiting directly to master.
+* For changing database schema we use migrations.
 * All merges should be approved by other team member.
 
 ### Prerequisites
