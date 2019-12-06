@@ -1,5 +1,8 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\Administrator: bcrypt
+        App\Entity\Client: bcrypt
     providers:
         in_memory: { memory: null }
     firewalls:
@@ -8,6 +11,13 @@ security:
             security: false
         main:
             anonymous: lazy
+            guard:
+                authenticators:
+                    - App\Security\AdministratorAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
