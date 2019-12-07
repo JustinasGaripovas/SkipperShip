@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin index{% endblock %}
+
+{% block header %}
+
+    <h3 class="text-center">Admin list</h3>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="py-5">
+        <a href="#" class="mb-2">Sukurti naują</a>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for admin in pagination %}
+                <tr>
+                    <td>{{ admin.id }}</td>
+                    <td>{{ admin.username }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Nerasta duomenų</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div style="display:flex;justify-content:center;align-items:center;">
+            <div>
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
