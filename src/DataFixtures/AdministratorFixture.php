@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Administrator;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -24,7 +24,7 @@ class AdministratorFixture extends Fixture
 
         $batchSize = 20;
         for ($i = 1; $i <= 40; ++$i) {
-            $user = new Administrator();
+            $user = new User();
 
             $user->setUsername("admin({$i})");
 

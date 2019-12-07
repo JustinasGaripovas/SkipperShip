@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Constants\RoleConst;
-use App\Repository\AdministratorRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +23,7 @@ class AdministratorController extends AbstractController
     /**
      * @Route("/administrator", name="administrator_index")
      */
-    public function index(AdministratorRepository $administratorRepository, PaginatorInterface $paginator, Request $request)
+    public function index(UserRepository $administratorRepository, PaginatorInterface $paginator, Request $request)
     {
         $this->denyAccessUnlessGranted(RoleConst::ROLE_ADMIN);
 

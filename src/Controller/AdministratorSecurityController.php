@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Administrator;
+use App\Entity\User;
 use App\Form\AdministratorType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,7 @@ class AdministratorSecurityController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $user = new Administrator();
+        $user = new User();
         $form = $this->createForm(AdministratorType::class, $user);
 
         $form->handleRequest($request);

@@ -1,16 +1,15 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     encoders:
-        App\Entity\Administrator: bcrypt
-        App\Entity\Client: bcrypt
+        App\Entity\User: bcrypt
     providers:
-        administrator:
+        user:
             entity:
-                class: 'App\Entity\Administrator'
+                class: 'App\Entity\User'
                 property: 'username'
     firewalls:
         administrator_login:
-            provider: 'administrator'
+            provider: 'user'
             anonymous: ~
             pattern: ^/
             guard:
