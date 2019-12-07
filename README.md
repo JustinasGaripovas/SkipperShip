@@ -7,7 +7,7 @@ One Paragraph of project description goes here
 * No commiting directly to master.
 * For changing database schema we use migrations.
 * All merges should be approved by other team member.
-
+* Commit names should fix [these naming convensions](https://www.conventionalcommits.org/en/v1.0.0-beta.2/)
 ### Prerequisites
 
 Good practice before installing:
