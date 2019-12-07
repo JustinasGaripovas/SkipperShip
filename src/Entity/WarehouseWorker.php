@@ -16,8 +16,26 @@ class WarehouseWorker
      */
     private $id;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $baseUser;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getBaseUser(): ?User
+    {
+        return $this->baseUser;
+    }
+
+    public function setBaseUser(?User $baseUser): self
+    {
+        $this->baseUser = $baseUser;
+
+        return $this;
     }
 }

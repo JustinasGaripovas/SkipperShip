@@ -8,15 +8,6 @@ security:
                 class: 'App\Entity\User'
                 property: 'username'
     firewalls:
-        administrator_login:
-            provider: 'user'
-            anonymous: ~
-            pattern: ^/
-            guard:
-                authenticators:
-                    - App\Security\UserAuthenticator
-            logout:
-                path: admin_logout
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false

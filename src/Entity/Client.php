@@ -17,40 +17,25 @@ class Client
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $username;
+    private $baseUser;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $password_encoded;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUsername(): ?string
+    public function getBaseUser(): ?User
     {
-        return $this->username;
+        return $this->baseUser;
     }
 
-    public function setUsername(string $username): self
+    public function setBaseUser(?User $baseUser): self
     {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function getPasswordEncoded(): ?string
-    {
-        return $this->password_encoded;
-    }
-
-    public function setPasswordEncoded(string $password_encoded): self
-    {
-        $this->password_encoded = $password_encoded;
+        $this->baseUser = $baseUser;
 
         return $this;
     }

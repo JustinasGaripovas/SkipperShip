@@ -4,24 +4,27 @@ namespace App\Controller;
 
 use App\Constants\RoleConst;
 use App\Entity\Admin;
+use App\Entity\Courier;
 use App\Entity\User;
 use App\Form\AdminType;
+use App\Form\CourierType;
 use App\Form\UserType;
-use App\Repository\AdminRepository;
+use App\Repository\CourierRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * Class AdministratorController
+ * Class CourierController
  * @package App\Controller
- * @Route("/admin")
+ * @Route("/courier")
  */
-class AdministratorController extends AbstractController
+class CourierController extends AbstractController
 {
     /** @var EntityManagerInterface $entityManager */
     private $entityManager;
@@ -32,14 +35,14 @@ class AdministratorController extends AbstractController
     }
 
     /**
-     * @Route("/list", name="admin_index")
+     * @Route("/list", name="courier_index")
      */
-    public function index(AdminRepository $adminRepository, PaginatorInterface $paginator, Request $request)
+    public function index(CourierRepository $courierRepository, PaginatorInterface $paginator, Request $request)
     {
         $this->denyAccessUnlessGranted(RoleConst::ROLE_ADMIN);
 
         $pagination = $paginator->paginate(
-            $adminRepository->findAll(),
+            $courierRepository->findAll(),
             $request->query->getInt('page', 1),
             15
         );
@@ -50,26 +53,26 @@ class AdministratorController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="admin_registration")
+     * @Route("/register", name="courier_registration")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $admin = new Admin();
+        $courier = new Courier();
 
-        $form = $this->createForm(AdminType::class, $admin);
+        $form = $this->createForm(CourierType::class, $courier);
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user = $admin->getBaseUser();
+            $user = $courier->getBaseUser();
 
-            $user->setRoles([RoleConst::ROLE_ADMIN]);
+            $user->setRoles([RoleConst::ROLE_COURIER]);
 
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 
-            $this->entityManager->persist($admin);
+            $this->entityManager->persist($courier);
             $this->entityManager->flush();
 
             return $this->redirectToRoute('administrator_index');

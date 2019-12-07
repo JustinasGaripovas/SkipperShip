@@ -4,24 +4,27 @@ namespace App\Controller;
 
 use App\Constants\RoleConst;
 use App\Entity\Admin;
+use App\Entity\Client;
 use App\Entity\User;
 use App\Form\AdminType;
+use App\Form\ClientType;
 use App\Form\UserType;
-use App\Repository\AdminRepository;
+use App\Repository\ClientRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * Class AdministratorController
+ * Class ClientController
  * @package App\Controller
- * @Route("/admin")
+ * @Route("/client")
  */
-class AdministratorController extends AbstractController
+class ClientController extends AbstractController
 {
     /** @var EntityManagerInterface $entityManager */
     private $entityManager;
@@ -32,14 +35,12 @@ class AdministratorController extends AbstractController
     }
 
     /**
-     * @Route("/list", name="admin_index")
+     * @Route("/list", name="client_index")
      */
-    public function index(AdminRepository $adminRepository, PaginatorInterface $paginator, Request $request)
+    public function index(ClientRepository $clientRepository, PaginatorInterface $paginator, Request $request)
     {
-        $this->denyAccessUnlessGranted(RoleConst::ROLE_ADMIN);
-
         $pagination = $paginator->paginate(
-            $adminRepository->findAll(),
+            $clientRepository->findAll(),
             $request->query->getInt('page', 1),
             15
         );
@@ -50,26 +51,26 @@ class AdministratorController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="admin_registration")
+     * @Route("/register", name="client_registration")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $admin = new Admin();
+        $client = new Client();
 
-        $form = $this->createForm(AdminType::class, $admin);
+        $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user = $admin->getBaseUser();
+            $user = $client->getBaseUser();
 
-            $user->setRoles([RoleConst::ROLE_ADMIN]);
+            $user->setRoles([RoleConst::ROLE_CLIENT]);
 
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 
-            $this->entityManager->persist($admin);
+            $this->entityManager->persist($client);
             $this->entityManager->flush();
 
             return $this->redirectToRoute('administrator_index');

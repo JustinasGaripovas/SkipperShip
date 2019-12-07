@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Constants\RoleConst;
 use App\Entity\Admin;
 use App\Entity\User;
+use App\Entity\WarehouseWorker;
 use App\Form\AdminType;
 use App\Form\UserType;
-use App\Repository\AdminRepository;
+use App\Form\WarehouseWorkerType;
 use App\Repository\UserRepository;
+use App\Repository\WarehouseWorkerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,11 +19,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * Class AdministratorController
+ * Class WarehouseWorkerController
  * @package App\Controller
- * @Route("/admin")
+ * @Route("/warehouse/worker")
  */
-class AdministratorController extends AbstractController
+class WarehouseWorkerController extends AbstractController
 {
     /** @var EntityManagerInterface $entityManager */
     private $entityManager;
@@ -32,14 +34,14 @@ class AdministratorController extends AbstractController
     }
 
     /**
-     * @Route("/list", name="admin_index")
+     * @Route("/list", name="warehouse_worker_index")
      */
-    public function index(AdminRepository $adminRepository, PaginatorInterface $paginator, Request $request)
+    public function index(WarehouseWorkerRepository $warehouseWorkerRepository, PaginatorInterface $paginator, Request $request)
     {
         $this->denyAccessUnlessGranted(RoleConst::ROLE_ADMIN);
 
         $pagination = $paginator->paginate(
-            $adminRepository->findAll(),
+            $warehouseWorkerRepository->findAll(),
             $request->query->getInt('page', 1),
             15
         );
@@ -50,26 +52,26 @@ class AdministratorController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="admin_registration")
+     * @Route("/register", name="warehouse_worker_registration")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $admin = new Admin();
+        $worker = new WarehouseWorker();
 
-        $form = $this->createForm(AdminType::class, $admin);
+        $form = $this->createForm(WarehouseWorkerType::class, $worker);
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user = $admin->getBaseUser();
+            $user = $worker->getBaseUser();
 
-            $user->setRoles([RoleConst::ROLE_ADMIN]);
+            $user->setRoles([RoleConst::ROLE_WAREHOUSE_WORKER]);
 
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 
-            $this->entityManager->persist($admin);
+            $this->entityManager->persist($worker);
             $this->entityManager->flush();
 
             return $this->redirectToRoute('administrator_index');

@@ -46,11 +46,6 @@ class User implements UserInterface
      */
     private $roles;
 
-    public function __construct()
-    {
-        $this->roles = array(RoleConst::ROLE_ADMIN);
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -95,6 +90,13 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
 
     /**
      * @inheritDoc
