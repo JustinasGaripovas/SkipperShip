@@ -21,7 +21,7 @@ class AdministratorController extends AbstractController
     }
 
     /**
-     * @Route("/administrator", name="administrator")
+     * @Route("/administrator", name="administrator_index")
      */
     public function index(AdministratorRepository $administratorRepository, PaginatorInterface $paginator, Request $request)
     {

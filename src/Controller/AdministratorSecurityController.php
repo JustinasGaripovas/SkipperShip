@@ -31,7 +31,7 @@ class AdministratorSecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('replace_with_some_route');
+            return $this->redirectToRoute('administrator_index');
         }
 
         return $this->render(
