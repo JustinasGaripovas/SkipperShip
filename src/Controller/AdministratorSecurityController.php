@@ -56,7 +56,7 @@ class AdministratorSecurityController extends AbstractController
     }
 
     /**
-     * @Route("/logout", name="app_logout")
+     * @Route("/logout", name="admin_logout")
      */
     public function logout()
     {

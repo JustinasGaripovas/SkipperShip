@@ -4,8 +4,20 @@ security:
         App\Entity\Administrator: bcrypt
         App\Entity\Client: bcrypt
     providers:
-        in_memory: { memory: null }
+        administrator:
+            entity:
+                class: 'App\Entity\Administrator'
+                property: 'username'
     firewalls:
+        administrator_login:
+            provider: 'administrator'
+            anonymous: ~
+            pattern: ^/
+            guard:
+                authenticators:
+                    - App\Security\AdministratorAuthenticator
+            logout:
+                path: admin_logout
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
