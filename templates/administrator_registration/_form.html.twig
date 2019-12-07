@@ -4,14 +4,10 @@
 
 {% block content %}
 
-    {{ form_start(form) }}
-        {{ form_row(form.username) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.plainPassword.first) }}
-        {{ form_row(form.plainPassword.second) }}
-        <div class="col-md-12 text-center">
-            {{ form_row(form.submit) }}
-        </div>
-    {{ form_end(form) }}
+
+    {{ form_start(formAdmin) }}
+    {{ form_widget(formAdmin) }}
+    {{ form_end(formAdmin) }}
+
 
 {% endblock %}

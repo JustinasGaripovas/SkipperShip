@@ -14,7 +14,7 @@ security:
             pattern: ^/
             guard:
                 authenticators:
-                    - App\Security\AdministratorAuthenticator
+                    - App\Security\UserAuthenticator
             logout:
                 path: admin_logout
         dev:
@@ -24,7 +24,7 @@ security:
             anonymous: lazy
             guard:
                 authenticators:
-                    - App\Security\AdministratorAuthenticator
+                    - App\Security\UserAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
