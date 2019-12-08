@@ -57,7 +57,10 @@ Optional step if you need auto generated data
 bin/console doctrine:fixture:load
 ```
 
-
+## Starting local server
+```
+symfony server:start
+```
 
 ## Built With
 
