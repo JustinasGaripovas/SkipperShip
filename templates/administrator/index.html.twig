@@ -22,8 +22,8 @@
             <tbody>
             {% for admin in pagination %}
                 <tr>
-                    <td>{{ admin.id }}</td>
-                    <td>{{ admin.username }}</td>
+                    <td>{{ admin.baseUser.id }}</td>
+                    <td>{{ admin.baseUser.username }}</td>
                 </tr>
             {% else %}
                 <tr>

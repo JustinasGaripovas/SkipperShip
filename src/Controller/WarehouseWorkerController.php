@@ -74,7 +74,7 @@ class WarehouseWorkerController extends AbstractController
             $this->entityManager->persist($worker);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('administrator_index');
+            return $this->redirectToRoute('warehouse_worker_index');
         }
 
 

@@ -46,6 +46,26 @@ class User implements UserInterface
      */
     private $roles;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Client", mappedBy="baseUser", cascade={"persist", "remove"})
+     */
+    private $client;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Admin", mappedBy="baseUser", cascade={"persist", "remove"})
+     */
+    private $admin;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Courier", mappedBy="baseUser", cascade={"persist", "remove"})
+     */
+    private $courier;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\WarehouseWorker", mappedBy="baseUser", cascade={"persist", "remove"})
+     */
+    private $warehouseWorker;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -97,7 +117,6 @@ class User implements UserInterface
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -127,5 +146,70 @@ class User implements UserInterface
      */
     public function eraseCredentials()
     {
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(Client $client): self
+    {
+        $this->client = $client;
+
+        // set the owning side of the relation if necessary
+        if ($client->getBaseUser() !== $this) {
+            $client->setBaseUser($this);
+        }
+
+        return $this;
+    }
+    public function getAdmin(): ?Admin
+    {
+        return $this->admin;
+    }
+
+    public function setAdmin(Admin $admin): self
+    {
+        $this->admin = $admin;
+
+        // set the owning side of the relation if necessary
+        if ($admin->getBaseUser() !== $this) {
+            $admin->setBaseUser($this);
+        }
+
+        return $this;
+    }
+    public function getCourier(): ?Courier
+    {
+        return $this->courier;
+    }
+
+    public function setCourier(Courier $courier): self
+    {
+        $this->courier = $courier;
+
+        // set the owning side of the relation if necessary
+        if ($courier->getBaseUser() !== $this) {
+            $courier->setBaseUser($this);
+        }
+
+        return $this;
+    }
+    public function getWarehouseWorker(): ?WarehouseWorker
+    {
+        return $this->warehouseWorker;
+    }
+
+    public function setWarehouseWorker(WarehouseWorker $warehouseWorker): self
+    {
+        $this->warehouseWorker = $warehouseWorker;
+
+        // set the owning side of the relation if necessary
+        if ($warehouseWorker->getBaseUser() !== $this) {
+            $warehouseWorker->setBaseUser($this);
+        }
+
+        return $this;
     }
 }
