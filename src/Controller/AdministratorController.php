@@ -72,7 +72,7 @@ class AdministratorController extends AbstractController
             $this->entityManager->persist($admin);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('administrator_index');
+            return $this->redirectToRoute('admin_index');
         }
 
 

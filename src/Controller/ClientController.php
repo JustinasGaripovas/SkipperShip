@@ -73,7 +73,7 @@ class ClientController extends AbstractController
             $this->entityManager->persist($client);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('administrator_index');
+            return $this->redirectToRoute('client_index');
         }
 
 

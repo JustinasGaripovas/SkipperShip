@@ -17,7 +17,7 @@ class Client
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="client", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $baseUser;
@@ -33,10 +33,11 @@ class Client
         return $this->baseUser;
     }
 
-    public function setBaseUser(?User $baseUser): self
+    public function setBaseUser(User $baseUser): self
     {
         $this->baseUser = $baseUser;
 
         return $this;
     }
+
 }

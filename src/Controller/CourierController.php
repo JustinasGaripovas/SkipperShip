@@ -75,7 +75,7 @@ class CourierController extends AbstractController
             $this->entityManager->persist($courier);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('administrator_index');
+            return $this->redirectToRoute('courier_index');
         }
 
 
