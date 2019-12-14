@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,6 +24,16 @@ class Client
      */
     private $baseUser;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Delivery", mappedBy="client", orphanRemoval=true)
+     */
+    private $delivery;
+
+    public function __construct()
+    {
+        $this->delivery = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -36,6 +48,37 @@ class Client
     public function setBaseUser(User $baseUser): self
     {
         $this->baseUser = $baseUser;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Delivery[]
+     */
+    public function getDelivery(): Collection
+    {
+        return $this->delivery;
+    }
+
+    public function addDelivery(Delivery $delivery): self
+    {
+        if (!$this->delivery->contains($delivery)) {
+            $this->delivery[] = $delivery;
+            $delivery->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDelivery(Delivery $delivery): self
+    {
+        if ($this->delivery->contains($delivery)) {
+            $this->delivery->removeElement($delivery);
+            // set the owning side to null (unless already changed)
+            if ($delivery->getClient() === $this) {
+                $delivery->setClient(null);
+            }
+        }
 
         return $this;
     }
