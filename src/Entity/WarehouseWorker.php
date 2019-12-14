@@ -23,6 +23,12 @@ class WarehouseWorker
      */
     private $baseUser;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Warehouse", inversedBy="workers")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $warehouse;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,6 +42,18 @@ class WarehouseWorker
     public function setBaseUser(?User $baseUser): self
     {
         $this->baseUser = $baseUser;
+
+        return $this;
+    }
+
+    public function getWarehouse(): ?Warehouse
+    {
+        return $this->warehouse;
+    }
+
+    public function setWarehouse(?Warehouse $warehouse): self
+    {
+        $this->warehouse = $warehouse;
 
         return $this;
     }
