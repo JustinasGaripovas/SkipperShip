@@ -35,7 +35,7 @@ class CourierController extends AbstractController
     }
 
     /**
-     * @Route("/list", name="courier_index")
+     * @Route("/", name="courier_index")
      */
     public function index(CourierRepository $courierRepository, PaginatorInterface $paginator, Request $request)
     {

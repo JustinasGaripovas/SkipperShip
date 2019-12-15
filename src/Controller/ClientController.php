@@ -39,7 +39,7 @@ class ClientController extends AbstractController
     }
 
     /**
-     * @Route("/list", name="client_index")
+     * @Route("/", name="client_index")
      */
     public function index(ClientRepository $clientRepository, PaginatorInterface $paginator, Request $request, Mailer $mailer)
     {

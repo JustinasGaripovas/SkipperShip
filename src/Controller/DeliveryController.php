@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Constants\RoleConst;
 use App\Entity\Delivery;
+use App\Entity\WarehouseWorker;
 use App\Form\DeliveryType;
 use App\Form\InquiryType;
 use App\Repository\DeliveryRepository;
 use App\Service\Mailer;
+use Knp\Component\Pager\PaginatorInterface;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,28 +21,46 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DeliveryController extends AbstractController
 {
+
+
     /**
      * @Route("/", name="delivery_index", methods={"GET"})
      */
-    public function index(DeliveryRepository $deliveryRepository): Response
+    public function index(DeliveryRepository $deliveryRepository, PaginatorInterface $paginator, Request $request): Response
     {
+
+        $deliveryList = [];
+        if ($this->isGranted(RoleConst::ROLE_WAREHOUSE_WORKER))
+        {
+            $deliveryList = $deliveryRepository->findAllUnassignedDeliveries();
+        }else{
+            $deliveryList = $deliveryRepository->findAll();
+        }
+
+
+        $pagination = $paginator->paginate(
+            $deliveryList,
+            $request->query->getInt('page', 1),
+            15
+        );
+
+
         return $this->render('delivery/index.html.twig', [
-            'deliveries' => $deliveryRepository->findAll(),
+            'pagination' => $pagination,
         ]);
     }
 
     /**
      * @Route("/{id}/inquiry", name="delivery_inquiry", methods={"GET","POST"})
      */
-    public function inquiry(Delivery$delivery, Mailer $mailer, Request $request)
+    public function inquiry(Delivery $delivery, Mailer $mailer, Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_CLIENT');
+        $this->denyAccessUnlessGranted(RoleConst::ROLE_CLIENT);
 
         $form = $this->createForm(InquiryType::class);
         $form->handleRequest($request);
 
-
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $message = $form->getData()['message'];
 
@@ -52,6 +74,25 @@ class DeliveryController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/{id}/assign", name="delivery_assign_to_warehouse", methods={"GET","POST"})
+     */
+    public function assignToWarehouse(Delivery $delivery)
+    {
+        $this->denyAccessUnlessGranted(RoleConst::ROLE_WAREHOUSE_WORKER);
+
+        /** @var WarehouseWorker $warehouseWorker */
+        $warehouseWorker = $this->getUser()->getWarehouseWorker();
+
+        $warehouseWorker->getWarehouse()->addDelivery($delivery);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        return $this->redirectToRoute('delivery_index');
+    }
+    
 
     /**
      * @Route("/new", name="delivery_new", methods={"GET","POST"})

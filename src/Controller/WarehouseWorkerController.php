@@ -34,7 +34,7 @@ class WarehouseWorkerController extends AbstractController
     }
 
     /**
-     * @Route("/list", name="warehouse_worker_index")
+     * @Route("/", name="warehouse_worker_index")
      */
     public function index(WarehouseWorkerRepository $warehouseWorkerRepository, PaginatorInterface $paginator, Request $request)
     {

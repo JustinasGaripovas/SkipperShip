@@ -24,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for delivery in deliveries %}
+        {% for delivery in pagination %}
             <tr>
                 <td>{{ delivery.id }}</td>
                 <td>{{ delivery.label }}</td>
@@ -36,6 +36,9 @@
                     <a href="{{ path('delivery_show', {'id': delivery.id}) }}">show</a>
                     <a href="{{ path('delivery_edit', {'id': delivery.id}) }}">edit</a>
                     <a href="{{ path('delivery_inquiry', {'id': delivery.id}) }}">inquiry</a>
+                    {%  if is_granted('ROLE_WAREHOUSE_WORKER') %}
+                        <a href="{{ path('delivery_assign_to_warehouse', {'id': delivery.id}) }}">assign</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -45,6 +48,12 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div style="display:flex;justify-content:center;align-items:center;">
+        <div>
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
 
     <a href="{{ path('delivery_new') }}">Create new</a>
 {% endblock %}
