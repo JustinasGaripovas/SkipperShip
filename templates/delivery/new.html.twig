@@ -27,7 +27,7 @@
         const marker =   L.marker([0,0], {icon: icon}).addTo(map);
         map.on('click', function(e) {
             document.getElementById("delivery_recipientLat").value = e.latlng.lat
-            document.getElementById("delivery_recipientLong").value = e.latlng.lng
+            document.getElementById("delivery_recipientLng").value = e.latlng.lng
             marker.setLatLng(e.latlng)
         });
 

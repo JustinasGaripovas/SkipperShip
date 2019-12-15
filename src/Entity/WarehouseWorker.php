@@ -29,6 +29,7 @@ class WarehouseWorker
      */
     private $warehouse;
 
+
     public function getId(): ?int
     {
         return $this->id;

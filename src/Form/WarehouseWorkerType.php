@@ -16,6 +16,7 @@ class WarehouseWorkerType extends AbstractType
             ->add('baseUser', UserType::class, [
                 'label' => false,
             ])
+            ->add('warehouse')
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],
             ])

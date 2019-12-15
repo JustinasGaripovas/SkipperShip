@@ -44,7 +44,7 @@ class Delivery
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $long;
+    private $Lng;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -54,7 +54,7 @@ class Delivery
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $recipientLong;
+    private $recipientLng;
 
     /**
      * @ORM\Column(type="datetime")
@@ -134,14 +134,14 @@ class Delivery
         return $this;
     }
 
-    public function getLong(): ?string
+    public function getLng(): ?string
     {
-        return $this->long;
+        return $this->Lng;
     }
 
-    public function setLong(?string $long): self
+    public function setLng(?string $Lng): self
     {
-        $this->long = $long;
+        $this->Lng = $Lng;
 
         return $this;
     }
@@ -215,14 +215,14 @@ class Delivery
         return $this;
     }
 
-    public function getRecipientLong(): ?string
+    public function getRecipientLng(): ?string
     {
-        return $this->recipientLong;
+        return $this->recipientLng;
     }
 
-    public function setRecipientLong(?string $long): self
+    public function setRecipientLng(?string $Lng): self
     {
-        $this->recipientLong = $long ;
+        $this->recipientLng = $Lng ;
 
         return $this;
     }

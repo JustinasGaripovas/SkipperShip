@@ -34,6 +34,10 @@ class Client
         $this->delivery = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return "klientas";
+    }
 
     public function getId(): ?int
     {
