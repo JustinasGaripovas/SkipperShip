@@ -2,9 +2,15 @@
 
 namespace App\Controller;
 
+use App\Constants\RoleConst;
+use App\Entity\Delivery;
 use App\Entity\Warehouse;
+use App\Form\InquiryType;
 use App\Form\WarehouseType;
 use App\Repository\WarehouseRepository;
+use App\Service\Mailer;
+use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +30,60 @@ class WarehouseController extends AbstractController
             'warehouses' => $warehouseRepository->findAll(),
         ]);
     }
+
+    /**
+     * @Route("/{id}/delivery", name="warehouse_delivery_index", methods={"GET"})
+     */
+    public function indexDelivery(Warehouse $warehouse, PaginatorInterface $paginator,Request $request)
+    {
+        $pagination = $paginator->paginate(
+            $warehouse->getDeliveries(),
+            $request->query->getInt('page', 1),
+            15
+        );
+
+        return $this->render('warehouse/delivery/index.html.twig', [
+            'pagination' => $pagination,
+            'warehouse' => $warehouse
+        ]);
+    }
+
+    /**
+     * @ParamConverter("warehouse", options={"mapping": {"id_warehouse" : "id"}})
+     * @ParamConverter("delivery", options={"mapping": {"id_delivery" : "id"}})
+     *
+     * @Route("/{id_warehouse}/inquiry/{id_delivery}", name="warehouse_delivery_inquiry", methods={"GET","POST"})
+     */
+    public function inquiry(Warehouse $warehouse, Delivery $delivery, Mailer $mailer, Request $request)
+    {
+        $this->denyAccessUnlessGranted(RoleConst::ROLE_WAREHOUSE_WORKER);
+
+        $form = $this->createForm(InquiryType::class);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $message = $form->getData()['message'];
+            $target = $form->getData()['target'];
+
+            if ($target == 0 && $delivery->getCourier() !== null && $delivery->getCourier()->getBaseUser() !== null)
+            {
+                $mailer->sendInquireToCourier($delivery->getCourier()->getBaseUser(), $message . "\nFOR DELIVERY\n Label = " . $delivery->getLabel() . ", Id = " . $delivery->getId());
+            }
+
+            if ($target == 1 && $delivery->getClient() !== null && $delivery->getClient()->getBaseUser() !== null){
+                $mailer->sendInquireToClient($delivery->getClient()->getBaseUser(), $message . "\nFOR DELIVERY\n Label = " . $delivery->getLabel() . ", Id = " . $delivery->getId(), $delivery->getClient()->getBaseUser());
+            }
+
+            return $this->redirectToRoute('warehouse_index');
+        }
+
+        return $this->render('warehouse/delivery/inquiry.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+
 
     /**
      * @Route("/new", name="warehouse_new", methods={"GET","POST"})

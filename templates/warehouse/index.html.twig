@@ -21,6 +21,7 @@
                 <td>{{ warehouse.name }}</td>
                 <td>{{ warehouse.postCode }}</td>
                 <td>
+                    <a href="{{ path('warehouse_delivery_index', {'id': warehouse.id}) }}">delivery's</a>
                     <a href="{{ path('warehouse_show', {'id': warehouse.id}) }}">show</a>
                     <a href="{{ path('warehouse_edit', {'id': warehouse.id}) }}">edit</a>
                 </td>

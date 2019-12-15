@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Delivery index{% endblock %}
+
+{% block content %}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Label</th>
+        <th>CreatedAt</th>
+        <th>UpdatedAt</th>
+        <th>Weight</th>
+        <th>RecipientInformation</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for delivery in pagination %}
+    <tr>
+        <td>{{ delivery.id }}</td>
+        <td>{{ delivery.label }}</td>
+        <td>{{ delivery.createdAt ? delivery.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+        <td>{{ delivery.updatedAt ? delivery.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+        <td>{{ delivery.weight }}</td>
+        <td>{{ delivery.recipientInformation }}</td>
+        <td>
+            <a href="{{ path('delivery_show', {'id': delivery.id}) }}">show</a>
+            <a href="{{ path('delivery_edit', {'id': delivery.id}) }}">edit</a>
+            <a href="{{ path('warehouse_delivery_inquiry', {'id_warehouse': warehouse.id, 'id_delivery': delivery.id}) }}">send message</a>
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="9">no records found</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div style="display:flex;justify-content:center;align-items:center;">
+    <div>
+        {{ knp_pagination_render(pagination) }}
+    </div>
+</div>
+
+<a href="{{ path('delivery_new') }}">Create new</a>
+{% endblock %}
+
+

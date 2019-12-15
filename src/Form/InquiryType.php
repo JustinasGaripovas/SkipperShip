@@ -2,20 +2,46 @@
 
 namespace App\Form;
 
+use App\Constants\RoleConst;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class InquiryType extends AbstractType
 {
+    protected $authorizationChecker;
+
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->authorizationChecker = $authorizationChecker;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('message', TextType::class, [
                 'required' => true
-            ])
+            ]);
+
+
+        if ($this->authorizationChecker->isGranted(RoleConst::ROLE_WAREHOUSE_WORKER))
+        {
+            $builder
+                ->add('target', ChoiceType::class, [
+                    'choices' => [
+                        'Courier' => 0,
+                        'Client' => 1
+                    ],
+                    'required' => true
+                ]);
+        }
+
+
+        $builder
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],
             ])
