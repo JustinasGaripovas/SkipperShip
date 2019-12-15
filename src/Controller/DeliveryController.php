@@ -35,6 +35,8 @@ class DeliveryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $delivery->setCreatedAt(new \DateTime());
+            $delivery->setUpdatedAt(new \DateTime());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($delivery);
             $entityManager->flush();
@@ -83,7 +85,7 @@ class DeliveryController extends AbstractController
      */
     public function delete(Request $request, Delivery $delivery): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$delivery->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $delivery->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($delivery);
             $entityManager->flush();

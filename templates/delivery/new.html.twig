@@ -9,3 +9,40 @@
 
     <a href="{{ path('delivery_index') }}">back to list</a>
 {% endblock %}
+
+{% block sideContent %}
+    <div class="map" id="main-map"></div>
+    <script>
+        const map = L.map("main-map").setView([54.897581, 23.909723], 13);
+
+
+        const icon = L.icon({
+            iconUrl: '/icons/svgs/solid/box.svg',
+            shadowUrl: '/icons/svgs/solid/box.svg',
+
+            iconSize: [30, 30], // size of the icon
+        });
+
+
+        const marker =   L.marker([0,0], {icon: icon}).addTo(map);
+        map.on('click', function(e) {
+            document.getElementById("delivery_recipientLat").value = e.latlng.lat
+            document.getElementById("delivery_recipientLong").value = e.latlng.lng
+            marker.setLatLng(e.latlng)
+        });
+
+
+        L.tileLayer(
+            "https://api.maptiler.com/maps/basic/{z}/{x}/{y}.png?key=ltrALA6k9d2bkEeRn8Fn",
+            {
+                attribution:
+                    '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>'
+            }
+        ).addTo(map);
+
+        const setMapView = (lat, long) => {
+            map.setView([lat, long], 15);
+        };
+    </script>
+{% endblock %}
+

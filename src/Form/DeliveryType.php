@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Delivery;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,16 +15,17 @@ class DeliveryType extends AbstractType
     {
         $builder
             ->add('label')
-            ->add('coordinates')
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('recipientLat')
+            ->add('recipientLong')
+//            ->add('recipientLat', HiddenType::class)
+//            ->add('recipientLong', HiddenType::class)
             ->add('weight')
+            ->add('lat', HiddenType::class)
+            ->add('long', HiddenType::class)
             ->add('recipientInformation')
-            ->add('recipientCoordinates')
             ->add('client')
             ->add('courier')
-            ->add('warehouse')
-        ;
+            ->add('warehouse');
     }
 
     public function configureOptions(OptionsResolver $resolver)

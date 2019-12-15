@@ -18,7 +18,6 @@ class Delivery
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="delivery")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $client;
 
@@ -38,9 +37,24 @@ class Delivery
     private $label;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $coordinates = [];
+    private $lat;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $long;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $recipientLat;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $recipientLong;
 
     /**
      * @ORM\Column(type="datetime")
@@ -61,11 +75,6 @@ class Delivery
      * @ORM\Column(type="string", length=255)
      */
     private $recipientInformation;
-
-    /**
-     * @ORM\Column(type="array")
-     */
-    private $recipientCoordinates = [];
 
     public function getId(): ?int
     {
@@ -113,6 +122,30 @@ class Delivery
         return $this->label;
     }
 
+    public function getLat(): ?string
+    {
+        return $this->lat;
+    }
+
+    public function setLat(?string $lat): self
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getLong(): ?string
+    {
+        return $this->long;
+    }
+
+    public function setLong(?string $long): self
+    {
+        $this->long = $long;
+
+        return $this;
+    }
+
     public function setLabel(?string $label): self
     {
         $this->label = $label;
@@ -120,17 +153,7 @@ class Delivery
         return $this;
     }
 
-    public function getCoordinates(): ?array
-    {
-        return $this->coordinates;
-    }
 
-    public function setCoordinates(?array $coordinates): self
-    {
-        $this->coordinates = $coordinates;
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -180,14 +203,26 @@ class Delivery
         return $this;
     }
 
-    public function getRecipientCoordinates(): ?array
+    public function getRecipientLat(): ?string
     {
-        return $this->recipientCoordinates;
+        return $this->recipientLat;
     }
 
-    public function setRecipientCoordinates(array $recipientCoordinates): self
+    public function setRecipientLat(?string $lat): self
     {
-        $this->recipientCoordinates = $recipientCoordinates;
+        $this->recipientLat = $lat;
+
+        return $this;
+    }
+
+    public function getRecipientLong(): ?string
+    {
+        return $this->recipientLong;
+    }
+
+    public function setRecipientLong(?string $long): self
+    {
+        $this->recipientLong = $long ;
 
         return $this;
     }

@@ -1,0 +1,33 @@
+body{
+    background: #343a40;
+}
+
+h1, h2, table *, form *{
+    color: white;
+}
+
+button{
+    color: white !important;
+}
+#body{
+    display: flex;
+    height: 100vh
+}
+
+.main-content-container{
+    flex: 1 0 auto;
+    overflow-y: scroll;
+}
+.main-content{
+    padding: 30px 40px;
+
+}
+.side-content {
+    flex: 0 0 auto;
+    height: 100%;
+}
+
+#main-map{
+    height: 100%;
+    width: 40vw;
+}
