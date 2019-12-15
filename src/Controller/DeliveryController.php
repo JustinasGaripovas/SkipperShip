@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Delivery;
 use App\Form\DeliveryType;
+use App\Form\InquiryType;
 use App\Repository\DeliveryRepository;
+use App\Service\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,10 +28,38 @@ class DeliveryController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/inquiry", name="delivery_inquiry", methods={"GET","POST"})
+     */
+    public function inquiry(Delivery$delivery, Mailer $mailer, Request $request)
+    {
+        $this->denyAccessUnlessGranted('ROLE_CLIENT');
+
+        $form = $this->createForm(InquiryType::class);
+        $form->handleRequest($request);
+
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $message = $form->getData()['message'];
+
+            $mailer->sendInquireToAdmin($message . "\nFOR DELIVERY\n Label = " . $delivery->getLabel() . ", Id = " . $delivery->getId(), $this->getUser()->getUsername());
+
+            return $this->redirectToRoute('delivery_index');
+        }
+
+        return $this->render('delivery/inquiry.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+    /**
      * @Route("/new", name="delivery_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_CLIENT');
+
         $delivery = new Delivery();
         $form = $this->createForm(DeliveryType::class, $delivery);
         $form->handleRequest($request);
@@ -37,6 +67,9 @@ class DeliveryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $delivery->setCreatedAt(new \DateTime());
             $delivery->setUpdatedAt(new \DateTime());
+            
+            $delivery->setClient($this->getUser()->getClient());
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($delivery);
             $entityManager->flush();

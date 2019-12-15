@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inquiry{% endblock %}
+
+{% block content %}
+    <h1>Send inquiry</h1>
+
+    {{ form(form) }}
+
+    <a href="{{ path('delivery_index') }}">back to list</a>
+
+{% endblock %}

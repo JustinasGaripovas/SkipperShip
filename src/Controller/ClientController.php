@@ -11,10 +11,12 @@ use App\Form\ClientType;
 use App\Form\UserType;
 use App\Repository\ClientRepository;
 use App\Repository\UserRepository;
+use App\Service\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -29,6 +31,8 @@ class ClientController extends AbstractController
     /** @var EntityManagerInterface $entityManager */
     private $entityManager;
 
+
+
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -37,7 +41,7 @@ class ClientController extends AbstractController
     /**
      * @Route("/list", name="client_index")
      */
-    public function index(ClientRepository $clientRepository, PaginatorInterface $paginator, Request $request)
+    public function index(ClientRepository $clientRepository, PaginatorInterface $paginator, Request $request, Mailer $mailer)
     {
         $pagination = $paginator->paginate(
             $clientRepository->findAll(),
@@ -81,5 +85,7 @@ class ClientController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
 }
 
