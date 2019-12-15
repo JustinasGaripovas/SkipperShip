@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Delivery{% endblock %}
+
+{% block body %}
+    <h1>Delivery</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ delivery.id }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ delivery.label }}</td>
+            </tr>
+            <tr>
+                <th>Coordinates</th>
+                <td>{{ delivery.coordinates ? delivery.coordinates|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ delivery.createdAt ? delivery.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ delivery.updatedAt ? delivery.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Weight</th>
+                <td>{{ delivery.weight }}</td>
+            </tr>
+            <tr>
+                <th>RecipientInformation</th>
+                <td>{{ delivery.recipientInformation }}</td>
+            </tr>
+            <tr>
+                <th>RecipientCoordinates</th>
+                <td>{{ delivery.recipientCoordinates ? delivery.recipientCoordinates|join(', ') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('delivery_index') }}">back to list</a>
+
+    <a href="{{ path('delivery_edit', {'id': delivery.id}) }}">edit</a>
+
+    {{ include('delivery/_delete_form.html.twig') }}
+{% endblock %}
