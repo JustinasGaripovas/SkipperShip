@@ -101,6 +101,7 @@ class WarehouseController extends AbstractController
             $courier = $form->getData()['courier'];
 
             $delivery->setCourier($courier);
+            $delivery->setStatus(2);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();

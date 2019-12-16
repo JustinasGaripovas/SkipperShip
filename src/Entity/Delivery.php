@@ -159,7 +159,6 @@ class Delivery
     }
 
 
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -227,13 +226,35 @@ class Delivery
 
     public function setRecipientLng(?string $Lng): self
     {
-        $this->recipientLng = $Lng ;
+        $this->recipientLng = $Lng;
 
         return $this;
     }
 
-    public function getStatus(): ?int
+    public function getStatus(): ?string
     {
+        switch ($this->status) {
+            case 0:
+                return "NEW";
+                break;
+            case 1:
+                return "IN STORAGE";
+                break;
+            case 2:
+                return "IN TRANSIT";
+                break;
+            case 3:
+                return "CANCELED";
+                break;
+            case 4:
+                return "DELIVERED";
+                break;
+
+            default:
+                return "ERROR";
+
+        }
+
         return $this->status;
     }
 
