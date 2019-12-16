@@ -21,9 +21,9 @@ class DeliveryType extends AbstractType
             ->add('lat', HiddenType::class)
             ->add('lng', HiddenType::class)
             ->add('recipientInformation')
-            ->add('client')
-            ->add('courier')
-            ->add('warehouse');
+            ->add('client', HiddenType::class)
+            ->add('courier', HiddenType::class)
+            ->add('warehouse', HiddenType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
