@@ -13,19 +13,19 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>Label</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>Weight</th>
-                <th>RecipientInformation</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>ID</th>
+            <th>Label</th>
+            <th>CreatedAt</th>
+            <th>UpdatedAt</th>
+            <th>Weight</th>
+            <th>RecipientInformation</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for delivery in pagination %}
-            <tr>
+            <tr style="cursor: pointer" onClick="setMapView({{delivery.recipientLat}},{{delivery.recipientLng}})" >
                 <td>{{ delivery.id }}</td>
                 <td>{{ delivery.label }}</td>
                 <td>{{ delivery.createdAt ? delivery.createdAt|date('Y-m-d H:i:s') : '' }}</td>
@@ -33,10 +33,10 @@
                 <td>{{ delivery.weight }}</td>
                 <td>{{ delivery.recipientInformation }}</td>
                 <td>
-                    <a href="{{ path('delivery_show', {'id': delivery.id}) }}">show</a>
-                    <a href="{{ path('delivery_edit', {'id': delivery.id}) }}">edit</a>
-                    <a href="{{ path('delivery_inquiry', {'id': delivery.id}) }}">inquiry</a>
-                    {%  if is_granted('ROLE_WAREHOUSE_WORKER') %}
+                    <a href="{{ path('delivery_show', {'id': delivery.id}) }}"><i class="fas fa-box fa-fw"></i></a>
+                    <a href="{{ path('delivery_edit', {'id': delivery.id}) }}"><i class="fas fa-edit fa-fw"></i></a>
+                    <a href="{{ path('delivery_inquiry', {'id': delivery.id}) }}"><i class="fas fa-envelope fa-fw"></i></a>
+                    {% if is_granted('ROLE_WAREHOUSE_WORKER') %}
                         <a href="{{ path('delivery_assign_to_warehouse', {'id': delivery.id}) }}">assign</a>
                     {% endif %}
                 </td>
@@ -55,7 +55,41 @@
         </div>
     </div>
 
-    <a href="{{ path('delivery_new') }}">Create new</a>
 {% endblock %}
 
+{% block sideContent %}
+    <div class="map" id="main-map"></div>
+    <script>
+        const map = L.map("main-map").setView([54.897581, 23.909723], 13);
+
+
+        const icon = L.icon({
+            iconUrl: '/icons/svgs/solid/box.svg',
+            shadowUrl: '/icons/svgs/solid/box.svg',
+
+            iconSize: [30, 30], // size of the icon
+        });
+
+
+
+        {% for delivery in pagination %}
+        L.marker([{{ delivery.recipientLat }},{{ delivery.recipientLng }}], {icon: icon}).addTo(map);
+
+        {% endfor %}
+
+
+
+        L.tileLayer(
+            "https://api.maptiler.com/maps/basic/{z}/{x}/{y}.png?key=ltrALA6k9d2bkEeRn8Fn",
+            {
+                attribution:
+                    '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>'
+            }
+        ).addTo(map);
+
+        const setMapView = (lat, long) => {
+            map.setView([lat, long], 15);
+        };
+    </script>
+{% endblock %}
 

@@ -145,12 +145,13 @@ body {
 }
 
 .controls-container a {
-  background: #dee2e6;
+  background: #fff;
+  font-weight: bold;
   text-align: center;
   color: #333;
   padding: 10px;
   flex: 0 0 150px;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .controls-container a:hover {

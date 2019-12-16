@@ -11,12 +11,13 @@ button{
 }
 #body{
     display: flex;
-    height: 100vh
+    height: 100vh;
 }
 
 .main-content-container{
     flex: 1 0 auto;
-    overflow-y: scroll;
+    overflow-y: auto;
+    width: 70vw;
 }
 .main-content{
     padding: 30px 40px;
@@ -29,5 +30,5 @@ button{
 
 #main-map{
     height: 100%;
-    width: 40vw;
+    width: 30vw;
 }
