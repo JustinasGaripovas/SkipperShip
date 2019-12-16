@@ -17,7 +17,7 @@
             <th>ID</th>
             <th>Status</th>
             <th>Label</th>
-            <th>Ordered atw</th>
+            <th>Ordered at</th>
             <th>Weight</th>
             <th>Recipient</th>
             <th></th>
@@ -61,6 +61,37 @@
     <div class="map" id="main-map"></div>
     <script src="/leaflet-routing-machine.min.js"></script>
 
+    <script type="text/javascript">
+
+        let myCurrentLocation;
+        function initGeolocation()
+        {
+            if( navigator.geolocation )
+            {
+                // Call getCurrentPosition with success and failure callbacks
+                navigator.geolocation.getCurrentPosition( success, fail );
+            }
+            else
+            {
+                alert("Sorry, your browser does not support geolocation services.");
+            }
+        }
+
+        function success(position)
+        {
+            console.log(position.coords)
+            myCurrentLocation = position.coords;
+        }
+
+        function fail()
+        {
+            console.log("failed")
+            // Could not obtain location
+        }
+        document.addEventListener("DOMContentLoaded", initGeolocation);
+
+    </script>
+
     <script>
         const map = L.map("main-map").setView([54.897581, 23.909723], 13);
 
@@ -90,6 +121,16 @@
         ).addTo(map);
 
         const setMapView = (lat, long) => {
+            console.log(myCurrentLocation)
+            L.Routing.control({
+                    waypoints: [
+                        L.latLng(myCurrentLocation.latitude, myCurrentLocation.longitude),
+                        L.latLng(lat, long)
+                    ],
+                    createMarker: () => {},
+                    routeWhileDragging: true
+                }).addTo(map);
+
             map.setView([lat, long], 15);
         };
 

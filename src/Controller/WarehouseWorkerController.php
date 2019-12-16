@@ -38,7 +38,6 @@ class WarehouseWorkerController extends AbstractController
      */
     public function index(WarehouseWorkerRepository $warehouseWorkerRepository, PaginatorInterface $paginator, Request $request)
     {
-
         $pagination = $paginator->paginate(
             $warehouseWorkerRepository->findAll(),
             $request->query->getInt('page', 1),
