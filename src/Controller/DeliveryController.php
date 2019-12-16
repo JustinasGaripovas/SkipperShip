@@ -107,7 +107,9 @@ class DeliveryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $delivery->setCreatedAt(new \DateTime());
             $delivery->setUpdatedAt(new \DateTime());
-            
+
+            $delivery->setStatus(0);
+
             $delivery->setClient($this->getUser()->getClient());
 
             $entityManager = $this->getDoctrine()->getManager();
