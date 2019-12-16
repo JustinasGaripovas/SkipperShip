@@ -19,7 +19,7 @@
     </thead>
     <tbody>
     {% for delivery in pagination %}
-    <tr>
+    <tr onClick="setMapView({{delivery.recipientLat}},{{delivery.recipientLng}})"   >
         <td>{{ delivery.id }}</td>
         <td>{{ delivery.label }}</td>
         <td>{{ delivery.status }}</td>
@@ -51,3 +51,93 @@
 {% endblock %}
 
 
+
+
+{% block sideContent %}
+    <div class="map" id="main-map"></div>
+    <script src="/leaflet-routing-machine.min.js"></script>
+
+    <script type="text/javascript">
+
+        let myCurrentLocation;
+        function initGeolocation()
+        {
+            if( navigator.geolocation )
+            {
+                // Call getCurrentPosition with success and failure callbacks
+                navigator.geolocation.getCurrentPosition( success, fail );
+            }
+            else
+            {
+                alert("Sorry, your browser does not support geolocation services.");
+            }
+        }
+
+        function success(position)
+        {
+            console.log(position.coords)
+            myCurrentLocation = position.coords;
+        }
+
+        function fail()
+        {
+            console.log("failed")
+            // Could not obtain location
+        }
+        document.addEventListener("DOMContentLoaded", initGeolocation);
+
+    </script>
+
+    <script>
+        const map = L.map("main-map").setView([54.897581, 23.909723], 13);
+
+
+        const icon = L.icon({
+            iconUrl: '/icons/svgs/solid/box.svg',
+            shadowUrl: '/icons/svgs/solid/box.svg',
+
+            iconSize: [30, 30], // size of the icon
+        });
+
+
+
+        {% for delivery in pagination %}
+        L.marker([{{ delivery.recipientLat }},{{ delivery.recipientLng }}], {icon: icon}).addTo(map);
+
+        {% endfor %}
+
+
+
+        L.tileLayer(
+            "https://api.maptiler.com/maps/basic/{z}/{x}/{y}.png?key=ltrALA6k9d2bkEeRn8Fn",
+            {
+                attribution:
+                    '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>'
+            }
+        ).addTo(map);
+
+        const setMapView = (lat, long) => {
+            console.log(myCurrentLocation)
+            L.Routing.control({
+                waypoints: [
+                    L.latLng(myCurrentLocation.latitude, myCurrentLocation.longitude),
+                    L.latLng(lat, long)
+                ],
+                createMarker: () => {},
+                routeWhileDragging: true
+            }).addTo(map);
+
+            map.setView([lat, long], 15);
+        };
+
+        // L.Routing.control({
+        //     waypoints: [
+        //         L.latLng(54.897581, 23.909724),
+        //         L.latLng(54.897581, 23.919724)
+        //     ],
+        //     createMarker: () => marker,
+        //     routeWhileDragging: true
+        // }).addTo(map);
+
+    </script>
+{% endblock %}

@@ -74,7 +74,7 @@ class ClientController extends AbstractController
             $this->entityManager->persist($client);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('client_index');
+            return $this->redirectToRoute('delivery_index');
         }
 
         return $this->render('administrator_registration/_form.html.twig', [

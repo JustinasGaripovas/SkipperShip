@@ -16,10 +16,6 @@
                 <td>{{ delivery.label }}</td>
             </tr>
             <tr>
-                <th>Coordinates</th>
-                <td>{{ delivery.coordinates ? delivery.coordinates|join(', ') : '' }}</td>
-            </tr>
-            <tr>
                 <th>CreatedAt</th>
                 <td>{{ delivery.createdAt ? delivery.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
@@ -34,10 +30,6 @@
             <tr>
                 <th>RecipientInformation</th>
                 <td>{{ delivery.recipientInformation }}</td>
-            </tr>
-            <tr>
-                <th>RecipientCoordinates</th>
-                <td>{{ delivery.recipientCoordinates ? delivery.recipientCoordinates|join(', ') : '' }}</td>
             </tr>
         </tbody>
     </table>

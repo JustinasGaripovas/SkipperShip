@@ -28,12 +28,17 @@ class DeliveryController extends AbstractController
      */
     public function index(DeliveryRepository $deliveryRepository, PaginatorInterface $paginator, Request $request): Response
     {
-
         $deliveryList = [];
-        if ($this->isGranted(RoleConst::ROLE_WAREHOUSE_WORKER))
-        {
+
+        if ($this->isGranted(RoleConst::ROLE_WAREHOUSE_WORKER)) {
             $deliveryList = $deliveryRepository->findAllUnassignedDeliveries();
-        }else{
+        }
+
+        if ($this->isGranted(RoleConst::ROLE_CLIENT)) {
+            $deliveryList = $this->getUser()->getClient()->getDelivery();
+        }
+
+        if ($this->isGranted(RoleConst::ROLE_ADMIN) || $this->isGranted(RoleConst::ROLE_COURIER)) {
             $deliveryList = $deliveryRepository->findAll();
         }
 
@@ -96,6 +101,7 @@ class DeliveryController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted(RoleConst::ROLE_CLIENT);
 
         $delivery = new Delivery();
         $form = $this->createForm(DeliveryType::class, $delivery);

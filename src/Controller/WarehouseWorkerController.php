@@ -44,7 +44,7 @@ class WarehouseWorkerController extends AbstractController
             15
         );
 
-        return $this->render('administrator/index.html.twig', [
+        return $this->render('worker/index.html.twig', [
             'pagination' => $pagination
         ]);
     }
@@ -72,7 +72,7 @@ class WarehouseWorkerController extends AbstractController
             $this->entityManager->persist($worker);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('warehouse_worker_index');
+            return $this->redirectToRoute('delivery_index');
         }
 
 

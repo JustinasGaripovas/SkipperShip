@@ -21,9 +21,9 @@ class UserSecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-         /*if ($this->getUser()) {
-             return $this->redirectToRoute('');
-         }*/
+         if ($this->getUser()) {
+             return $this->redirectToRoute('app_logout');
+         }
 
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();

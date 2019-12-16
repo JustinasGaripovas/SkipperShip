@@ -10,11 +10,10 @@
         <th>ID</th>
         <th>Label</th>
         <th>Status</th>
-        <th>CreatedAt</th>
-        <th>UpdatedAt</th>
+        <th>Courier</th>
         <th>Weight</th>
         <th>RecipientInformation</th>
-        <th>actions</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -23,8 +22,7 @@
         <td>{{ delivery.id }}</td>
         <td>{{ delivery.label }}</td>
         <td>{{ delivery.status }}</td>
-        <td>{{ delivery.createdAt ? delivery.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-        <td>{{ delivery.updatedAt ? delivery.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+        <td>{{ delivery.courier.baseuser.username|default("NONE") }}</td>
         <td>{{ delivery.weight }}</td>
         <td>{{ delivery.recipientInformation }}</td>
         <td>

@@ -17,6 +17,7 @@
         <tr>
             <th>Id</th>
             <th>Username</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -24,7 +25,7 @@
             <tr>
                 <td>{{ courier.baseUser.id }}</td>
                 <td>{{ courier.baseUser.username }}</td>
-                <td><a href="{{ path('courier_delivery_index', {'id': courier.id}) }}">delivery's</a></td>
+                <td><a href="{{ path('courier_delivery_index', {'id': courier.id}) }}">deliveries</a></td>
             </tr>
         {% else %}
             <tr>

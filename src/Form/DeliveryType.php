@@ -15,8 +15,12 @@ class DeliveryType extends AbstractType
     {
         $builder
             ->add('label')
-            ->add('recipientLat', HiddenType::class)
-            ->add('recipientLng', HiddenType::class)
+            ->add('recipientLat', HiddenType::class, [
+                'required' => true
+            ])
+            ->add('recipientLng', HiddenType::class, [
+                'required' => true
+            ])
             ->add('weight')
             ->add('lat', HiddenType::class)
             ->add('lng', HiddenType::class)
