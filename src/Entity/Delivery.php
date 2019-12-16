@@ -76,6 +76,11 @@ class Delivery
      */
     private $recipientInformation;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -223,6 +228,18 @@ class Delivery
     public function setRecipientLng(?string $Lng): self
     {
         $this->recipientLng = $Lng ;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

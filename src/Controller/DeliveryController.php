@@ -60,7 +60,6 @@ class DeliveryController extends AbstractController
         $form = $this->createForm(InquiryType::class);
         $form->handleRequest($request);
 
-        
         if ($form->isSubmitted() && $form->isValid()) {
             $message = $form->getData()['message'];
 

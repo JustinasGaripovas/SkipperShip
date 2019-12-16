@@ -15,6 +15,7 @@
         <thead>
         <tr>
             <th>ID</th>
+            <th>Status</th>
             <th>Label</th>
             <th>CreatedAt</th>
             <th>UpdatedAt</th>
@@ -27,6 +28,7 @@
         {% for delivery in pagination %}
             <tr style="cursor: pointer" onClick="setMapView({{delivery.recipientLat}},{{delivery.recipientLng}})" >
                 <td>{{ delivery.id }}</td>
+                <td>{{ delivery.status }}</td>
                 <td>{{ delivery.label }}</td>
                 <td>{{ delivery.createdAt ? delivery.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ delivery.updatedAt ? delivery.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
