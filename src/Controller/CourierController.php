@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Constants\RoleConst;
 use App\Entity\Admin;
 use App\Entity\Courier;
+use App\Entity\Delivery;
 use App\Entity\User;
+use App\Entity\Warehouse;
 use App\Form\AdminType;
 use App\Form\CourierType;
 use App\Form\UserType;
@@ -13,6 +15,7 @@ use App\Repository\CourierRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,18 +42,71 @@ class CourierController extends AbstractController
      */
     public function index(CourierRepository $courierRepository, PaginatorInterface $paginator, Request $request)
     {
-        $this->denyAccessUnlessGranted(RoleConst::ROLE_ADMIN);
-
         $pagination = $paginator->paginate(
             $courierRepository->findAll(),
             $request->query->getInt('page', 1),
             15
         );
 
-        return $this->render('administrator/index.html.twig', [
+        return $this->render('courier/index.html.twig', [
             'pagination' => $pagination
         ]);
     }
+
+    /**
+     * @Route("/{id}/delivery", name="courier_delivery_index", methods={"GET"})
+     */
+    public function indexDelivery(Courier $courier, PaginatorInterface $paginator,Request $request)
+    {
+        $pagination = $paginator->paginate(
+            $courier->getDelivery(),
+            $request->query->getInt('page', 1),
+            15
+        );
+
+        return $this->render('courier/delivery/index.html.twig', [
+            'pagination' => $pagination,
+            'courier' => $courier
+        ]);
+    }
+
+
+    /**
+     * @ParamConverter("courier", options={"mapping": {"id_courier" : "id"}})
+     * @ParamConverter("delivery", options={"mapping": {"id_delivery" : "id"}})
+     *
+     * @Route("/{id_courier}/delivery/{id_delivery}/cancel", name="courier_delivery_cancel", methods={"GET","POST"})
+     */
+    public function cancelCourier(Courier $courier, Delivery $delivery, Request $request)
+    {
+        $this->denyAccessUnlessGranted(RoleConst::ROLE_COURIER);
+
+        $delivery->setStatus(3);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        return $this->redirectToRoute('courier_delivery_index',['id'=>$courier->getId()]);
+    }
+
+    /**
+     * @ParamConverter("courier", options={"mapping": {"id_courier" : "id"}})
+     * @ParamConverter("delivery", options={"mapping": {"id_delivery" : "id"}})
+     *
+     * @Route("/{id_courier}/delivery/{id_delivery}/delivered", name="courier_delivery_delivered", methods={"GET","POST"})
+     */
+    public function deliveredCourier(Courier $courier, Delivery $delivery, Request $request)
+    {
+        $this->denyAccessUnlessGranted(RoleConst::ROLE_COURIER);
+
+        $delivery->setStatus(4);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        return $this->redirectToRoute('courier_delivery_index',['id'=>$courier->getId()]);
+    }
+
 
     /**
      * @Route("/register", name="courier_registration")

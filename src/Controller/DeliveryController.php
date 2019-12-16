@@ -37,7 +37,6 @@ class DeliveryController extends AbstractController
             $deliveryList = $deliveryRepository->findAll();
         }
 
-
         $pagination = $paginator->paginate(
             $deliveryList,
             $request->query->getInt('page', 1),
@@ -86,12 +85,13 @@ class DeliveryController extends AbstractController
 
         $warehouseWorker->getWarehouse()->addDelivery($delivery);
 
+        $delivery->setStatus(1);
+
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
 
         return $this->redirectToRoute('delivery_index');
     }
-    
 
     /**
      * @Route("/new", name="delivery_new", methods={"GET","POST"})
