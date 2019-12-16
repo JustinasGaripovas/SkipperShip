@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Constants\RoleConst;
 use App\Entity\Car;
 use App\Form\CarType;
 use App\Repository\CarRepository;
@@ -46,6 +47,22 @@ class CarController extends AbstractController
             'car' => $car,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}/assign", name="car_assign", methods={"GET"})
+     */
+    public function assign(Car $car): Response
+    {
+        $this->denyAccessUnlessGranted(RoleConst::ROLE_COURIER);
+
+        $car->setCourier($this->getUser()->getCourier());
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        return $this->redirectToRoute('car_index');
+
     }
 
     /**

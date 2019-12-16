@@ -27,6 +27,8 @@ class WarehouseController extends AbstractController
      */
     public function index(WarehouseRepository $warehouseRepository): Response
     {
+
+
         return $this->render('warehouse/index.html.twig', [
             'warehouses' => $warehouseRepository->findAll(),
         ]);
@@ -91,7 +93,6 @@ class WarehouseController extends AbstractController
      */
     public function assignCourier(Warehouse $warehouse, Delivery $delivery, Mailer $mailer, Request $request)
     {
-
         $form = $this->createForm(CourierAssignType::class);
         $form->handleRequest($request);
 

@@ -90,7 +90,7 @@ class Mailer
         $this->mailer->send($message);
     }
 
-    public function sendInquireToAdmin(string $message, string $from, string $to = 'justelis911@gmail.com')
+    public function sendInquireToAdmin(string $message, string $from, string $to = 'SkipperShipHelp@gmail.com')
     {
         $message = (new \Swift_Message('Hello Email'))
             ->setFrom('SkipperShipHelp@gmail.com')

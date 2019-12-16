@@ -18,7 +18,7 @@ class CourierAssignType extends AbstractType
                 'class' => Courier::class
             ])
             ->add('submit', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-success'],
+                'attr' => ['class' => 'btn btn-success']
             ])
         ;
     }

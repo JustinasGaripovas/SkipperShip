@@ -64,8 +64,18 @@
                         <a class="nav-link" href="/warehouse">Warehouses</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ path('car_index') }}">Cars</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ path('warehouse_worker_index')}}" >Warehouse workers</a>
                     </li>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('city_index')}}" >City</a>
+                        </li>
+                    {% endif %}
+
                 </ul>
 
             </div>

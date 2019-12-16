@@ -3,12 +3,20 @@
 {% block title %}Car index{% endblock %}
 
 {% block content %}
-    <h1>Car index</h1>
+
+    <div class="page-header">
+        <h2><i class="fas fa-car fa-fw"></i>Cars </h2>
+        <div class="controls-container">
+            <a href="{{ path('car_new') }}" class="mb-2">Create new</a>
+        </div>
+    </div>
+
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Courier</th>
                 <th>WeightCategoty</th>
                 <th>PlateNumber</th>
                 <th>actions</th>
@@ -18,11 +26,13 @@
         {% for car in cars %}
             <tr>
                 <td>{{ car.id }}</td>
+                <td>{{ car.courier.baseuser.username|default("NONE") }}</td>
                 <td>{{ car.weightCategoty }}</td>
                 <td>{{ car.plateNumber }}</td>
                 <td>
-                    <a href="{{ path('car_show', {'id': car.id}) }}">show</a>
-                    <a href="{{ path('car_edit', {'id': car.id}) }}">edit</a>
+                    {% if is_granted('ROLE_COURIER') %}
+                        <a href="{{ path('car_assign', {'id': car.id}) }}">assign me</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -33,5 +43,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('car_new') }}">Create new</a>
 {% endblock %}

@@ -4,6 +4,12 @@
 
 {% block content %}
 
+    <div class="page-header">
+        <h2><i class="fas fa-dolly fa-fw"></i>Courier deliveries </h2>
+        <div class="controls-container">
+        </div>
+    </div>
+
 <table class="table">
     <thead>
     <tr>
@@ -29,8 +35,8 @@
         <td>{{ delivery.recipientInformation }}</td>
         <td>
             <a href="{{ path('delivery_show', {'id': delivery.id}) }}">show</a>
-            <a href="{{ path('courier_delivery_cancel', {'id_courier': courier.id, 'id_delivery': delivery.id}) }}">Cancel</a>
-            <a href="{{ path('courier_delivery_delivered', {'id_courier': courier.id, 'id_delivery': delivery.id}) }}">Delivered</a>
+            <a href="{{ path('courier_delivery_cancel', {'id_courier': courier.id, 'id_delivery': delivery.id}) }}">cancel</a>
+            <a href="{{ path('courier_delivery_delivered', {'id_courier': courier.id, 'id_delivery': delivery.id}) }}">delivered</a>
         </td>
     </tr>
     {% else %}
