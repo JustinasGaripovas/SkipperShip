@@ -17,10 +17,9 @@
             <th>ID</th>
             <th>Status</th>
             <th>Label</th>
-            <th>CreatedAt</th>
-            <th>UpdatedAt</th>
+            <th>Ordered atw</th>
             <th>Weight</th>
-            <th>RecipientInformation</th>
+            <th>Recipient</th>
             <th></th>
         </tr>
         </thead>
@@ -30,8 +29,7 @@
                 <td>{{ delivery.id }}</td>
                 <td>{{ delivery.status }}</td>
                 <td>{{ delivery.label }}</td>
-                <td>{{ delivery.createdAt ? delivery.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ delivery.updatedAt ? delivery.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ delivery.createdAt ? delivery.createdAt|date('Y-m-d') : '' }}</td>
                 <td>{{ delivery.weight }}</td>
                 <td>{{ delivery.recipientInformation }}</td>
                 <td>
@@ -61,6 +59,8 @@
 
 {% block sideContent %}
     <div class="map" id="main-map"></div>
+    <script src="/leaflet-routing-machine.min.js"></script>
+
     <script>
         const map = L.map("main-map").setView([54.897581, 23.909723], 13);
 
@@ -92,6 +92,16 @@
         const setMapView = (lat, long) => {
             map.setView([lat, long], 15);
         };
+
+        // L.Routing.control({
+        //     waypoints: [
+        //         L.latLng(54.897581, 23.909724),
+        //         L.latLng(54.897581, 23.919724)
+        //     ],
+        //     createMarker: () => marker,
+        //     routeWhileDragging: true
+        // }).addTo(map);
+
     </script>
 {% endblock %}
 
