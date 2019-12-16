@@ -36,7 +36,6 @@ class AdministratorController extends AbstractController
      */
     public function index(AdminRepository $adminRepository, PaginatorInterface $paginator, Request $request)
     {
-        $this->denyAccessUnlessGranted(RoleConst::ROLE_ADMIN);
 
         $pagination = $paginator->paginate(
             $adminRepository->findAll(),

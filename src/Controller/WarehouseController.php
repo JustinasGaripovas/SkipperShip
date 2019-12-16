@@ -57,7 +57,6 @@ class WarehouseController extends AbstractController
      */
     public function inquiry(Warehouse $warehouse, Delivery $delivery, Mailer $mailer, Request $request)
     {
-        $this->denyAccessUnlessGranted(RoleConst::ROLE_WAREHOUSE_WORKER);
 
         $form = $this->createForm(InquiryType::class);
         $form->handleRequest($request);
@@ -92,7 +91,6 @@ class WarehouseController extends AbstractController
      */
     public function assignCourier(Warehouse $warehouse, Delivery $delivery, Mailer $mailer, Request $request)
     {
-        $this->denyAccessUnlessGranted(RoleConst::ROLE_WAREHOUSE_WORKER);
 
         $form = $this->createForm(CourierAssignType::class);
         $form->handleRequest($request);

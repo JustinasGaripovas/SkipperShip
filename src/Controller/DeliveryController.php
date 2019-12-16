@@ -54,7 +54,6 @@ class DeliveryController extends AbstractController
      */
     public function inquiry(Delivery $delivery, Mailer $mailer, Request $request)
     {
-        $this->denyAccessUnlessGranted(RoleConst::ROLE_CLIENT);
 
         $form = $this->createForm(InquiryType::class);
         $form->handleRequest($request);
@@ -78,7 +77,6 @@ class DeliveryController extends AbstractController
      */
     public function assignToWarehouse(Delivery $delivery)
     {
-        $this->denyAccessUnlessGranted(RoleConst::ROLE_WAREHOUSE_WORKER);
 
         /** @var WarehouseWorker $warehouseWorker */
         $warehouseWorker = $this->getUser()->getWarehouseWorker();
@@ -98,7 +96,6 @@ class DeliveryController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_CLIENT');
 
         $delivery = new Delivery();
         $form = $this->createForm(DeliveryType::class, $delivery);

@@ -79,7 +79,6 @@ class CourierController extends AbstractController
      */
     public function cancelCourier(Courier $courier, Delivery $delivery, Request $request)
     {
-        $this->denyAccessUnlessGranted(RoleConst::ROLE_COURIER);
 
         $delivery->setStatus(3);
 
@@ -97,7 +96,6 @@ class CourierController extends AbstractController
      */
     public function deliveredCourier(Courier $courier, Delivery $delivery, Request $request)
     {
-        $this->denyAccessUnlessGranted(RoleConst::ROLE_COURIER);
 
         $delivery->setStatus(4);
 

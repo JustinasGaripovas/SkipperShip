@@ -38,7 +38,6 @@ class WarehouseWorkerController extends AbstractController
      */
     public function index(WarehouseWorkerRepository $warehouseWorkerRepository, PaginatorInterface $paginator, Request $request)
     {
-        $this->denyAccessUnlessGranted(RoleConst::ROLE_ADMIN);
 
         $pagination = $paginator->paginate(
             $warehouseWorkerRepository->findAll(),
