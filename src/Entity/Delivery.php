@@ -235,7 +235,7 @@ class Delivery
     {
         switch ($this->status) {
             case 0:
-                return "NEW";
+                return "ORDERED";
                 break;
             case 1:
                 return "IN STORAGE";
