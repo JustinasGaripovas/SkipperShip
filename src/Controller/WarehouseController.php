@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Constants\RoleConst;
 use App\Entity\Delivery;
 use App\Entity\Warehouse;
+use App\Form\CourierAssignType;
 use App\Form\InquiryType;
 use App\Form\WarehouseType;
 use App\Repository\WarehouseRepository;
@@ -52,7 +53,7 @@ class WarehouseController extends AbstractController
      * @ParamConverter("warehouse", options={"mapping": {"id_warehouse" : "id"}})
      * @ParamConverter("delivery", options={"mapping": {"id_delivery" : "id"}})
      *
-     * @Route("/{id_warehouse}/inquiry/{id_delivery}", name="warehouse_delivery_inquiry", methods={"GET","POST"})
+     * @Route("/{id_warehouse}/delivery/{id_delivery}/inquiry", name="warehouse_delivery_inquiry", methods={"GET","POST"})
      */
     public function inquiry(Warehouse $warehouse, Delivery $delivery, Mailer $mailer, Request $request)
     {
@@ -83,7 +84,34 @@ class WarehouseController extends AbstractController
         ]);
     }
 
+    /**
+     * @ParamConverter("warehouse", options={"mapping": {"id_warehouse" : "id"}})
+     * @ParamConverter("delivery", options={"mapping": {"id_delivery" : "id"}})
+     *
+     * @Route("/{id_warehouse}/delivery/{id_delivery}/assign", name="warehouse_delivery_assign", methods={"GET","POST"})
+     */
+    public function assignCourier(Warehouse $warehouse, Delivery $delivery, Mailer $mailer, Request $request)
+    {
+        $this->denyAccessUnlessGranted(RoleConst::ROLE_WAREHOUSE_WORKER);
 
+        $form = $this->createForm(CourierAssignType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $courier = $form->getData()['courier'];
+
+            $delivery->setCourier($courier);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            return $this->redirectToRoute('warehouse_index');
+        }
+
+        return $this->render('warehouse/delivery/inquiry.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 
     /**
      * @Route("/new", name="warehouse_new", methods={"GET","POST"})

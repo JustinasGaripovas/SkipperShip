@@ -39,6 +39,11 @@ class Courier
         $this->delivery = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getBaseUser()->getUsername();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
