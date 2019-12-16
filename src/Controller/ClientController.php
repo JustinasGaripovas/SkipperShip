@@ -31,8 +31,6 @@ class ClientController extends AbstractController
     /** @var EntityManagerInterface $entityManager */
     private $entityManager;
 
-
-
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -49,7 +47,7 @@ class ClientController extends AbstractController
             15
         );
 
-        return $this->render('administrator/index.html.twig', [
+        return $this->render('client/index.html.twig', [
             'pagination' => $pagination
         ]);
     }
@@ -63,7 +61,6 @@ class ClientController extends AbstractController
 
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -79,7 +76,6 @@ class ClientController extends AbstractController
 
             return $this->redirectToRoute('client_index');
         }
-
 
         return $this->render('administrator_registration/_form.html.twig', [
             'form' => $form->createView(),

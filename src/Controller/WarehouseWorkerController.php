@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 /**
  * Class WarehouseWorkerController
  * @package App\Controller
- * @Route("/warehouse/worker")
+ * @Route("/worker")
  */
 class WarehouseWorkerController extends AbstractController
 {
